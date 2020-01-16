@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList, ChangeDetectorRef } from '@angular/core';
 
 import { SortHeader, SortEvent, compare } from '../directives/sort-header.directive';
 
@@ -30,8 +30,9 @@ export class ListsComponent implements OnInit {
   addTaskVisible = false;
   newTask = null;
   deletedTaskList = [];
+  searchText = '';
 
-  constructor() { }
+  constructor(private _cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.getList();
@@ -50,10 +51,13 @@ export class ListsComponent implements OnInit {
   }
 
   addNewTask() {
+    this.searchText = null;
     var maxId = this.getObject(this.defaultList, 'id');
     var newId = maxId.id + 1;
-    var jsonString = '{"userid":' + 1 + ',"id":' + newId + ',"title":"' + this.newTask + '", "completed":' + false + '}'
+    var jsonString = '{"userId":' + 1 + ',"id":' + newId + ',"title":"' + this.newTask + '", "completed":' + false + '}'
     this.defaultList.push(JSON.parse(jsonString));
+    this.searchText = '';
+    this._cdr.detectChanges();
   }
 
   getObject(array, prop) {
@@ -84,7 +88,7 @@ export class ListsComponent implements OnInit {
     }
   }
 
-  colSort({column, direction}: SortEvent) {
+  colSort({ column, direction }: SortEvent) {
 
     // Reset headers
     this.headers.forEach(header => {

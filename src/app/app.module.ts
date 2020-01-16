@@ -10,6 +10,7 @@ import { PastComponent } from './past/past.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { OcticonDirective } from './directives/octicon.directive';
 import { SortHeader } from './directives/sort-header.directive';
+import { TableFilterPipe } from './pipes/table-filter.pipe';
 
 console.log(`jQuery version: ${$.fn.jquery}`);
 
@@ -20,7 +21,8 @@ console.log(`jQuery version: ${$.fn.jquery}`);
     PastComponent,
     PageNotFoundComponent,
     OcticonDirective,
-    SortHeader
+    SortHeader,
+    TableFilterPipe
   ],
   imports: [
     BrowserModule,

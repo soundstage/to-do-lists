@@ -1,20 +1,21 @@
 <div class="container">
   <h4>To Do Lists</h4>
-  <div>
+  <div class="control-bar">
     <button type="button" class="btn btn-primary" (click)="showPrompt()" *ngIf="!addTaskVisible">Add Task</button>
-
+    <div class="add-task " *ngIf="addTaskVisible">
+      <div class="new-task">
+        <span>Add a Task </span>
+        <input type="text" [(ngModel)]="newTask" />
+        <button class="btn btn-primary" (click)="addNewTask()">Add</button>
+      </div>
+      <div>
+        <span aria-hidden="true" class="cross" (click)="hidePrompt()">&times;</span>
+      </div>
+    </div>
+    <input [(ngModel)]="searchText" placeholder="Search.." class="advancedSearchTextbox">
   </div>
 
-  <div class="add-task " *ngIf="addTaskVisible">
-    <div>
-      <span>Add a Task </span>
-      <input type="text" [(ngModel)]="newTask" />
-      <button class="btn btn-primary" (click)="addNewTask()">Add</button>
-    </div>
-    <div>
-      <span aria-hidden="true" class="cross" (click)="hidePrompt()">&times;</span>
-    </div>
-  </div>
+
 
   <div class="ListContainer">
     <table class="table">
@@ -34,7 +35,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let task of defaultList; index as i;">
+        <tr *ngFor="let task of defaultList | tableFilter: {title: searchText}; index as i;">
           <td>{{task.id}}</td>
           <td>{{task.userId}}</td>
           <td [ngClass]="(task.completed==true)?'strike-through-text':''">{{task.title}}</td>
