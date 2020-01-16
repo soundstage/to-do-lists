@@ -21,7 +21,7 @@ export class ListsComponent implements OnInit {
       "title": "quis ut nam facilis et officia qui",
       "completed": false
     }
-  ]`
+  ]`;
   defaultList = null;
   addTaskVisible = false;
   newTask = null;
