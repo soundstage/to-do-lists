@@ -8,3 +8,7 @@
 .cross{
     cursor: pointer;
 }
+
+.delete-icon{
+    padding: 0 10px;
+}

@@ -33,7 +33,7 @@
           <td>{{task.userId}}</td>
           <td>{{task.title}}</td>
           <td>{{task.completed}}</td>
-          <td (click)="deleteTaskById(task.id)">DEL</td>
+          <td (click)="deleteTaskById(task.id)"><span octicon="trashcan" class="delete-icon cross"></span></td>
         </tr>
       </tbody>
     </table>

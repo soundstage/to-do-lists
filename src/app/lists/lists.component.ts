@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 declare var $: any;
 
+
 @Component({
   selector: 'app-lists',
   templateUrl: './lists.component.html',
   styleUrls: ['./lists.component.css']
 })
 export class ListsComponent implements OnInit {
-
+  
   sampleList = `[
     {
       "userId": 1,
@@ -25,7 +26,7 @@ export class ListsComponent implements OnInit {
   defaultList = null;
   addTaskVisible = false;
   newTask = null;
-  deletedTaskList = null;
+  deletedTaskList = [];
 
   constructor() { }
 
@@ -46,9 +47,9 @@ export class ListsComponent implements OnInit {
   }
 
   addNewTask(){
-    var maxId = this.getMax(this.defaultList, 'id');
-    var id = maxId.id + 1;
-    var jsonString = '{"userid":'+ 1 +',"id":' + id + ',"title":"' + this.newTask +'", "completed":'+ false +'}'
+    var maxId = this.getObject(this.defaultList, 'id');
+    var newId = maxId.id + 1;
+    var jsonString = '{"userid":'+ 1 +',"id":' + newId + ',"title":"' + this.newTask +'", "completed":'+ false +'}'
     this.defaultList.push(JSON.parse(jsonString));
   }
 
@@ -60,24 +61,24 @@ export class ListsComponent implements OnInit {
 
   }
 
-  getMax(arr, prop){
-    var max;
+  getObject(array, prop){
+    var object;
     for(var index = 0; index<this.defaultList.length; index++){
-      if (max == null || parseInt(arr[index][prop]) > parseInt(max[prop]))
-            max = arr[index];
+      if (object == null || parseInt(array[index][prop]) > parseInt(object[prop]))
+      object = array[index];
     }
-    return max;
+    return object;
   }
 
   deleteTaskById(id){
     var target;
     for(var index = 0; index<this.defaultList.length; index++){
-      if (target == null || parseInt(this.defaultList[index].id) == id){
+      if (parseInt(this.defaultList[index].id) == id){
+        target = this.defaultList[index];
         this.deletedTaskList.push(target);
-        this.defaultList.pop()
+        this.defaultList.splice(index, 1);
       }
     }
-    
   }
 
 }

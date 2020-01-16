@@ -8,13 +8,15 @@ import { AppComponent } from './app.component';
 import { ListsComponent } from './lists/lists.component';
 import { PastComponent } from './past/past.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { OcticonDirective } from './octicon.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     ListsComponent,
     PastComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    OcticonDirective
   ],
   imports: [
     BrowserModule,
