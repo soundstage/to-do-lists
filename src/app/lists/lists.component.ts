@@ -81,4 +81,14 @@ export class ListsComponent implements OnInit {
     }
   }
 
+  markAsDoneById(id){
+    for(var index = 0; index<this.defaultList.length; index++){
+      if (parseInt(this.defaultList[index].id) == id){
+        this.defaultList[index].completed = !this.defaultList[index].completed;
+      }
+    }
+  }
+
+  
+
 }

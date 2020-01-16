@@ -7,14 +7,14 @@
 
   <div class="add-task " *ngIf="addTaskVisible">
     <div>
-      <span>Add a Task  </span>
-      <input type="text"  [(ngModel)]="newTask"/>
+      <span>Add a Task </span>
+      <input type="text" [(ngModel)]="newTask" />
       <button class="btn btn-primary" (click)="addNewTask()">Add</button>
     </div>
     <div>
       <span aria-hidden="true" class="cross" (click)="hidePrompt()">&times;</span>
     </div>
-  </div> 
+  </div>
 
   <div class="ListContainer">
     <table class="table">
@@ -31,9 +31,17 @@
         <tr *ngFor="let task of defaultList; index as i;">
           <td>{{task.id}}</td>
           <td>{{task.userId}}</td>
-          <td>{{task.title}}</td>
-          <td>{{task.completed}}</td>
-          <td (click)="deleteTaskById(task.id)"><span octicon="trashcan" class="delete-icon cross"></span></td>
+          <td [ngClass]="(task.completed==true)?'strike-through-text':''">{{task.title}}</td>
+          <td>
+            <!-- If Task Completed -->
+            <span *ngIf="task.completed" octicon="checklist" class="checklist-done"></span>
+            <!-- If Task Not Completed -->
+            <span *ngIf="!task.completed" octicon="dash"></span>
+          </td>
+          <td>
+            <span octicon="check" width="16" class="icon-ten-pad done-icon" (click)="markAsDoneById(task.id)">DONE</span>
+            <span octicon="trashcan" class="icon-ten-pad delete-icon" (click)="deleteTaskById(task.id)"></span>
+          </td>
         </tr>
       </tbody>
     </table>

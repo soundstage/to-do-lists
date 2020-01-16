@@ -9,6 +9,23 @@
     cursor: pointer;
 }
 
-.delete-icon{
+.icon-ten-pad{
     padding: 0 10px;
+    cursor: pointer;
+}
+
+.delete-icon:hover{
+    color: red;
+}
+
+.done-icon:hover{
+    color: green;
+}
+
+.strike-through-text{
+    text-decoration-line: line-through;
+}
+
+.checklist-done{
+    color: darkblue
 }
