@@ -20,10 +20,16 @@
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">#</th>
+          <th scope="col" sortable="id" (sort)="colSort($event)" class="sortable">
+            <div></div>#
+          </th>
           <th scope="col">User ID</th>
-          <th scope="col">Title</th>
-          <th scope="col">Status</th>
+          <th scope="col" sortable="title" (sort)="colSort($event)" class="sortable">
+            <div></div>Title
+          </th>
+          <th scope="col" sortable="completed" (sort)="colSort($event)" class="sortable">
+            <div></div>Status
+          </th>
           <th scope="col">Action</th>
         </tr>
       </thead>

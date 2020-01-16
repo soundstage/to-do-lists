@@ -8,7 +8,10 @@ import { AppComponent } from './app.component';
 import { ListsComponent } from './lists/lists.component';
 import { PastComponent } from './past/past.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { OcticonDirective } from './octicon.directive';
+import { OcticonDirective } from './directives/octicon.directive';
+import { SortHeader } from './directives/sort-header.directive';
+
+console.log(`jQuery version: ${$.fn.jquery}`);
 
 @NgModule({
   declarations: [
@@ -16,7 +19,8 @@ import { OcticonDirective } from './octicon.directive';
     ListsComponent,
     PastComponent,
     PageNotFoundComponent,
-    OcticonDirective
+    OcticonDirective,
+    SortHeader
   ],
   imports: [
     BrowserModule,
