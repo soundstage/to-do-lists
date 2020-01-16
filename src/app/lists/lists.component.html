@@ -1,0 +1,65 @@
+<div class="container">
+  <h4>To Do Lists</h4>
+  <div>
+    <button type="button" class="btn btn-primary" (click)="showPrompt()" *ngIf="!addTaskVisible">Add Task</button>
+
+  </div>
+
+  <div class="add-task " *ngIf="addTaskVisible">
+    <div>
+      <span>Add a Task  </span>
+      <input type="text"  [(ngModel)]="newTask"/>
+      <button class="btn btn-primary" (click)="addNewTask()">Add</button>
+    </div>
+    <div>
+      <span aria-hidden="true" class="cross" (click)="hidePrompt()">&times;</span>
+    </div>
+  </div>
+
+  <div class="ListContainer">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">User ID</th>
+          <th scope="col">Title</th>
+          <th scope="col">Status</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let task of defaultList; index as i;">
+          <td>{{task.id}}</td>
+          <td>{{task.userId}}</td>
+          <td>{{task.title}}</td>
+          <td>{{task.completed}}</td>
+          <td (click)="deleteTaskById(task.id)">DEL</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div>
+
+  </div>
+
+  <!-- Task Modal -->
+  <!-- <div class="modal" role="dialog" id="myModal" tabindex="-1" >
+    <div class="modal-dialog" role="document">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Task</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="modal-body">
+          <span>Add a Task</span>
+          <input type="text" />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary">Save</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close-modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div> -->
+</div>
