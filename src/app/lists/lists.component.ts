@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChildren, QueryList, ChangeDetectorRef } from '@angular/core';
 
 import { SortHeader, SortEvent, compare } from '../directives/sort-header.directive';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -24,6 +25,12 @@ export class ListsComponent implements OnInit {
       "id": 2,
       "title": "quis ut nam facilis et officia qui",
       "completed": false
+    },
+    {
+      "userId": 2,
+      "id": 3,
+      "title": "test",
+      "completed": false
     }
   ]`;
   defaultList = null;
@@ -32,7 +39,7 @@ export class ListsComponent implements OnInit {
   deletedTaskList = [];
   searchText = '';
 
-  constructor(private _cdr: ChangeDetectorRef) { }
+  constructor(private _cdr: ChangeDetectorRef, private router: Router) { }
 
   ngOnInit() {
     this.getList();
@@ -106,6 +113,10 @@ export class ListsComponent implements OnInit {
         return direction === 'asc' ? res : -res;
       });
     }
+  }
+
+  viewDeleted() {
+    this.router.navigate(['/past', JSON.stringify(this.deletedTaskList)]);
   }
 
 }

@@ -4,11 +4,9 @@
     <button type="button" class="btn btn-primary" (click)="showPrompt()" *ngIf="!addTaskVisible">Add Task</button>
     <div class="add-task " *ngIf="addTaskVisible">
       <div class="new-task">
-        <span>Add a Task </span>
+        <span class="text">Add a Task </span>
         <input type="text" [(ngModel)]="newTask" />
         <button class="btn btn-primary" (click)="addNewTask()">Add</button>
-      </div>
-      <div>
         <span aria-hidden="true" class="cross" (click)="hidePrompt()">&times;</span>
       </div>
     </div>
@@ -55,26 +53,6 @@
   </div>
 
   <div>
-
+    <button (click)="viewDeleted()" class="btn btn-secondary">View Deleted Tasks</button>
   </div>
-
-  <!-- Task Modal -->
-  <!-- <div class="modal" role="dialog" id="myModal" tabindex="-1" >
-    <div class="modal-dialog" role="document">
-      <div class="modal-header">
-        <h5 class="modal-title">Add Task</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <div class="modal-body">
-          <span>Add a Task</span>
-          <input type="text" />
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Save</button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close-modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div> -->
 </div>

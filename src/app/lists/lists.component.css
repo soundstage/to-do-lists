@@ -1,12 +1,25 @@
 .add-task{
     display: flex;
     justify-content: space-around;
-    align-items: center;
+    line-height: 31px;
 }
 
 .new-task{
     display: flex;
     align-items: center;
+}
+
+.new-task > .cross{
+    height: 38px;
+    margin-left: 10px;
+}
+
+.new-task > .text{
+    margin-right: 10px;
+}
+
+.new-task > button{
+    margin-left: 5px;
 }
 
 .cross{
@@ -41,9 +54,6 @@
 
 .sortable{
     cursor: pointer;
-    /* display: flex;
-    /* flex-direction: row;
-    align-items: center; */
 }
 
 .asc > div {

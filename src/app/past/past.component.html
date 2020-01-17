@@ -1,3 +1,40 @@
-<p>
-  past works!
-</p>
+<div class="container">
+  <h4>Deleted Tasks</h4>
+  <div class="ListContainer">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col" sortable="id" (sort)="colSort($event)" class="sortable">
+            <div></div>#
+          </th>
+          <th scope="col">User ID</th>
+          <th scope="col" sortable="title" (sort)="colSort($event)" class="sortable">
+            <div></div>Title
+          </th>
+          <th scope="col" sortable="completed" (sort)="colSort($event)" class="sortable">
+            <div></div>Status
+          </th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let task of defaultList | tableFilter: {title: searchText}; index as i;">
+          <td>{{task.id}}</td>
+          <td>{{task.userId}}</td>
+          <td [ngClass]="(task.completed==true)?'strike-through-text':''">{{task.title}}</td>
+          <td>
+            <!-- If Task Completed -->
+            <span *ngIf="task.completed" octicon="checklist" class="checklist-done"></span>
+            <!-- If Task Not Completed -->
+            <span *ngIf="!task.completed" octicon="dash"></span>
+          </td>
+          <td>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <button (click)="goToLists()" class="btn btn-secondary">Back</button>
+  </div>
+</div>
