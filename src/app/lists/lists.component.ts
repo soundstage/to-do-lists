@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChildren, QueryList, ChangeDetectorRef } from '@
 
 import { SortHeader, SortEvent, compare } from '../directives/sort-header.directive';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -39,14 +40,23 @@ export class ListsComponent implements OnInit {
   deletedTaskList = [];
   searchText = '';
 
-  constructor(private _cdr: ChangeDetectorRef, private router: Router) { }
+  constructor(private _cdr: ChangeDetectorRef, private router: Router, private httpClient: HttpClient) { }
 
   ngOnInit() {
     this.getList();
   }
 
   getList() {
-    this.defaultList = JSON.parse(this.sampleList);
+    // var data = this.httpClient.get('https://jsonplaceholder.typicode.com/bipintek/demo-api/todos');
+    this.httpClient.get('https://jsonplaceholder.typicode.com/bipintek/demo-api/todos')
+      .subscribe(
+        (data) => {
+          if (data != []) {
+            this.defaultList = data;
+          } else {
+            this.defaultList = JSON.parse(this.sampleList);
+          }
+        });
   }
 
   showPrompt() {
