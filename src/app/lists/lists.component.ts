@@ -42,7 +42,7 @@ export class ListsComponent implements OnInit {
   taskList: Item[] = [];
   addTaskVisible = false;
   newTask = null;
-  deletedTaskList = [];
+  // deletedTaskList = [];
   searchText = '';
 
   constructor(private _cdr: ChangeDetectorRef,
@@ -105,8 +105,10 @@ export class ListsComponent implements OnInit {
     for (var index = 0; index < this.taskList.length; index++) {
       if (this.taskList[index].id == id) {
         target = this.taskList[index];
-        this.deletedTaskList.push(target);
+        // this.deletedTaskList.push(target);
+        this.updateDoneList(target);
         this.taskList.splice(index, 1);
+        this.storage.set(LIST_KEY, this.taskList);
       }
     }
   }
@@ -119,8 +121,16 @@ export class ListsComponent implements OnInit {
     }
   }
 
-  updateDoneList(item){
-    
+  updateDoneList(item) {
+    if (this.storage.get(DONE_KEY) != undefined) {
+      let doneList = this.storage.get(DONE_KEY);
+      doneList.push(item);
+      this.storage.set(DONE_KEY, doneList);
+    } else {
+      let array = [];
+      array.push(item);
+      this.storage.set(DONE_KEY, array);
+    }
   }
 
   colSort({ column, direction }: SortEvent) {
@@ -132,7 +142,6 @@ export class ListsComponent implements OnInit {
       }
     });
 
-    // 
     if (direction === '') {
       this.taskList = this.taskList;
     } else {
@@ -144,7 +153,8 @@ export class ListsComponent implements OnInit {
   }
 
   viewDeleted() {
-    this.router.navigate(['/past', JSON.stringify(this.deletedTaskList)]);
+    // this.router.navigate(['/past', JSON.stringify(this.deletedTaskList)]);
+    this.router.navigate(['/past']);
   }
 
 }

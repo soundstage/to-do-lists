@@ -18,7 +18,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let task of defaultList | tableFilter: {title: searchText}; index as i;">
+        <tr *ngFor="let task of doneList | tableFilter: {title: searchText}; index as i;">
           <td>{{task.id}}</td>
           <td>{{task.userId}}</td>
           <td [ngClass]="(task.completed==true)?'strike-through-text':''">{{task.title}}</td>

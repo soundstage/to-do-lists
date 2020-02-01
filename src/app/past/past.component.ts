@@ -1,6 +1,10 @@
-import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SortHeader, SortEvent, compare } from '../directives/sort-header.directive';
+import { Item } from '../item';
+import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
+
+let DONE_KEY = 'done';
 
 @Component({
   selector: 'app-past',
@@ -10,19 +14,25 @@ import { SortHeader, SortEvent, compare } from '../directives/sort-header.direct
 export class PastComponent implements OnInit {
   @ViewChildren(SortHeader) headers: QueryList<SortHeader>;
 
-  defaultList = null;
+  doneList: Item[] = [];
 
-  constructor(private router: Router, private route: ActivatedRoute) {
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    @Inject(LOCAL_STORAGE) private storage: StorageService) {
 
   }
 
   ngOnInit() {
-    var tasks = this.route.snapshot.params['tasks'];
-    this.getList(tasks);
+    // var tasks = this.route.snapshot.params['tasks'];
+    this.getList();
   }
 
-  getList(list) {
-    this.defaultList = JSON.parse(list);
+  getList() {
+    if (this.storage.get(DONE_KEY) != undefined) {
+      this.doneList = this.storage.get(DONE_KEY);
+    }
+    // this.doneList = JSON.parse(list);
   }
 
   colSort({ column, direction }: SortEvent) {
@@ -36,16 +46,16 @@ export class PastComponent implements OnInit {
 
     // 
     if (direction === '') {
-      this.defaultList = this.defaultList;
+      this.doneList = this.doneList;
     } else {
-      this.defaultList = [...this.defaultList].sort((a, b) => {
+      this.doneList = [...this.doneList].sort((a, b) => {
         const res = compare(a[column], b[column]);
         return direction === 'asc' ? res : -res;
       });
     }
   }
 
-  goToLists(){
+  goToLists() {
     this.router.navigate(['/lists']);
   }
 
