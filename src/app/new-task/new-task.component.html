@@ -1,0 +1,8 @@
+<form>
+    <div class="form-group">
+        <label>Add Task</label>
+        <input type="text" [(ngModel)]="task.title" class="form-control" aria-describedby="taskHelp" name="task" />
+        <small id="taskHelp" class="form-text text-muted" [ngClass]="{'error': showError==true}">Enter a Task</small>
+    </div>
+    <button type="submit" class="btn btn-primary" (click)="addNewTask()">Submit</button>
+</form>

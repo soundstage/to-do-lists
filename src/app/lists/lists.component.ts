@@ -1,9 +1,14 @@
-import { Component, OnInit, ViewChildren, QueryList, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList, ChangeDetectorRef, Inject } from '@angular/core';
 
 import { SortHeader, SortEvent, compare } from '../directives/sort-header.directive';
+import { Item } from '../item';
+
+import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
+var LIST_KEY = 'list';
+var DONE_KEY = 'done';
 
 @Component({
   selector: 'app-lists',
@@ -14,7 +19,7 @@ export class ListsComponent implements OnInit {
 
   @ViewChildren(SortHeader) headers: QueryList<SortHeader>;
 
-  sampleList = `[
+  sampleList: Item[] = [
     {
       "userId": 1,
       "id": 1,
@@ -33,14 +38,17 @@ export class ListsComponent implements OnInit {
       "title": "test",
       "completed": false
     }
-  ]`;
-  defaultList = null;
+  ];
+  taskList: Item[] = [];
   addTaskVisible = false;
   newTask = null;
   deletedTaskList = [];
   searchText = '';
 
-  constructor(private _cdr: ChangeDetectorRef, private router: Router, private httpClient: HttpClient) { }
+  constructor(private _cdr: ChangeDetectorRef,
+    private router: Router,
+    private httpClient: HttpClient,
+    @Inject(LOCAL_STORAGE) private storage: StorageService) { }
 
   ngOnInit() {
     this.getList();
@@ -48,15 +56,21 @@ export class ListsComponent implements OnInit {
 
   getList() {
     // var data = this.httpClient.get('https://jsonplaceholder.typicode.com/bipintek/demo-api/todos');
-    this.httpClient.get('https://jsonplaceholder.typicode.com/bipintek/demo-api/todos')
-      .subscribe(
-        (data) => {
-          if (data != []) {
-            this.defaultList = data;
-          } else {
-            this.defaultList = JSON.parse(this.sampleList);
-          }
-        });
+    // this.httpClient.get('https://jsonplaceholder.typicode.com/bipintek/demo-api/todos')
+    //   .subscribe(
+    //     (data) => {
+    //       if (data != []) {
+    //         this.defaultList = data;
+    //       } else {
+    // this.taskList = this.sampleList;
+    //   }
+    // });
+
+    if (this.storage.get(LIST_KEY) == undefined) {
+      this.taskList = this.sampleList;
+    } else {
+      this.taskList = this.storage.get(LIST_KEY);
+    }
   }
 
   showPrompt() {
@@ -67,42 +81,46 @@ export class ListsComponent implements OnInit {
     this.addTaskVisible = false;
   }
 
-  addNewTask() {
-    this.searchText = null;
-    var maxId = this.getObject(this.defaultList, 'id');
-    var newId = maxId.id + 1;
-    var jsonString = '{"userId":' + 1 + ',"id":' + newId + ',"title":"' + this.newTask + '", "completed":' + false + '}'
-    this.defaultList.push(JSON.parse(jsonString));
-    this.searchText = '';
-    this._cdr.detectChanges();
-  }
+  // addNewTask() {
+  //   this.searchText = null;
+  //   var maxId = this.getObject(this.defaultList, 'id');
+  //   var newId = maxId.id + 1;
+  //   var jsonString = '{"userId":' + 1 + ',"id":' + newId + ',"title":"' + this.newTask + '", "completed":' + false + '}'
+  //   this.defaultList.push(JSON.parse(jsonString));
+  //   this.searchText = '';
+  //   this._cdr.detectChanges();
+  // }
 
-  getObject(array, prop) {
-    var object;
-    for (var index = 0; index < this.defaultList.length; index++) {
-      if (object == null || parseInt(array[index][prop]) > parseInt(object[prop]))
-        object = array[index];
-    }
-    return object;
-  }
+  // getObject(array, prop) {
+  //   var object;
+  //   for (var index = 0; index < this.defaultList.length; index++) {
+  //     if (object == null || parseInt(array[index][prop]) > parseInt(object[prop]))
+  //       object = array[index];
+  //   }
+  //   return object;
+  // }
 
   deleteTaskById(id) {
     var target;
-    for (var index = 0; index < this.defaultList.length; index++) {
-      if (parseInt(this.defaultList[index].id) == id) {
-        target = this.defaultList[index];
+    for (var index = 0; index < this.taskList.length; index++) {
+      if (this.taskList[index].id == id) {
+        target = this.taskList[index];
         this.deletedTaskList.push(target);
-        this.defaultList.splice(index, 1);
+        this.taskList.splice(index, 1);
       }
     }
   }
 
   markAsDoneById(id) {
-    for (var index = 0; index < this.defaultList.length; index++) {
-      if (parseInt(this.defaultList[index].id) == id) {
-        this.defaultList[index].completed = !this.defaultList[index].completed;
+    for (var index = 0; index < this.taskList.length; index++) {
+      if (this.taskList[index].id == id) {
+        this.taskList[index].completed = !this.taskList[index].completed;
       }
     }
+  }
+
+  updateDoneList(item){
+    
   }
 
   colSort({ column, direction }: SortEvent) {
@@ -116,9 +134,9 @@ export class ListsComponent implements OnInit {
 
     // 
     if (direction === '') {
-      this.defaultList = this.defaultList;
+      this.taskList = this.taskList;
     } else {
-      this.defaultList = [...this.defaultList].sort((a, b) => {
+      this.taskList = [...this.taskList].sort((a, b) => {
         const res = compare(a[column], b[column]);
         return direction === 'asc' ? res : -res;
       });

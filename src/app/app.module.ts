@@ -12,6 +12,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { OcticonDirective } from './directives/octicon.directive';
 import { SortHeader } from './directives/sort-header.directive';
 import { TableFilterPipe } from './pipes/table-filter.pipe';
+import { NewTaskComponent } from './new-task/new-task.component';
 
 console.log(`jQuery version: ${$.fn.jquery}`);
 
@@ -23,7 +24,8 @@ console.log(`jQuery version: ${$.fn.jquery}`);
     PageNotFoundComponent,
     OcticonDirective,
     SortHeader,
-    TableFilterPipe
+    TableFilterPipe,
+    NewTaskComponent
   ],
   imports: [
     BrowserModule,
