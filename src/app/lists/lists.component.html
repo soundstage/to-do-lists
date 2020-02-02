@@ -1,39 +1,29 @@
 <div class="container">
-  <!-- <h4>To Do Lists</h4> -->
   <div class="control-bar">
-    <!-- <button type="button" class="btn btn-primary" routerLink="/newtask">Add Task</button> -->
-    <!-- <div class="add-task " *ngIf="addTaskVisible">
-      <div class="new-task">
-        <span class="text">Add a Task </span>
-        <input type="text" [(ngModel)]="newTask" />
-        <button class="btn btn-primary" (click)="addNewTask()">Add</button>
-        <span aria-hidden="true" class="cross" (click)="hidePrompt()">&times;</span>
-      </div>
-    </div> -->
     <input [(ngModel)]="searchText" placeholder="Search.." class="advancedSearchTextbox">
   </div>
 
 
 
   <div class="ListContainer">
-    <table class="table">
+    <table class="table" id="tasksTable">
       <thead>
         <tr>
-          <th scope="col" sortable="id" (sort)="colSort($event)" class="sortable">
-            <div></div>#
+          <th scope="col" sortable="id" (sort)="colSort($event)" class="sortable" style="width: 10%">
+            #
           </th>
-          <th scope="col">User ID</th>
-          <th scope="col" sortable="title" (sort)="colSort($event)" class="sortable">
-            <div></div>Title
+          <th scope="col" style="width: 10%">User ID</th>
+          <th scope="col" sortable="title" (sort)="colSort($event)" class="sortable" style="width: 25%">
+            Title
           </th>
-          <th scope="col" sortable="completed" (sort)="colSort($event)" class="sortable">
-            <div></div>Status
+          <th scope="col" sortable="completed" (sort)="colSort($event)" class="sortable" style="width: 10%">
+            Status
           </th>
-          <th scope="col">Action</th>
+          <th scope="col" colspan="1" style="width: 10%">Action</th>
         </tr>
       </thead>
-      <tbody>
-        <tr *ngFor="let task of taskList | tableFilter: {title: searchText}; index as i;">
+      <tbody *ngFor="let task of taskList | tableFilter: {title: searchText}; index as i;">
+        <tr>
           <td>{{task.id}}</td>
           <td>{{task.userId}}</td>
           <td [ngClass]="(task.completed==true)?'strike-through-text':''">{{task.title}}</td>
@@ -44,8 +34,17 @@
             <span *ngIf="!task.completed" octicon="dash"></span>
           </td>
           <td>
-            <span octicon="check" width="16" class="icon-ten-pad done-icon" (click)="markAsDoneById(task.id)">DONE</span>
+            <span octicon="check" width="16" class="icon-ten-pad done-icon"
+              (click)="markAsDoneById(task.id)">DONE</span>
             <span octicon="trashcan" class="icon-ten-pad delete-icon" (click)="deleteTaskById(task.id)"></span>
+            <span octicon="comment-discussion" [routerLink]="['/notes', task.id]" class="icon-ten-pad"></span>
+          </td>
+        </tr>
+        <tr id="row" *ngIf="task.note">
+          <td colspan="6">
+            <div id="notes">
+              <p><b>Notes:</b></p>{{task.note}}
+            </div>
           </td>
         </tr>
       </tbody>

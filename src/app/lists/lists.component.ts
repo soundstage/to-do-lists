@@ -1,14 +1,16 @@
 import { Component, OnInit, ViewChildren, QueryList, ChangeDetectorRef, Inject } from '@angular/core';
 
 import { SortHeader, SortEvent, compare } from '../directives/sort-header.directive';
-import { Item } from '../item';
+import { Item } from '../classes/item';
 
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { Note } from '../classes/note';
 
-var LIST_KEY = 'list';
-var DONE_KEY = 'done';
+let LIST_KEY = 'list';
+let DONE_KEY = 'done';
+let NOTE_KEY = 'note';
 
 @Component({
   selector: 'app-lists',
@@ -24,26 +26,29 @@ export class ListsComponent implements OnInit {
       "userId": 1,
       "id": 1,
       "title": "delectus aut autem",
-      "completed": false
+      "completed": false,
+      "note": ''
     },
     {
       "userId": 1,
       "id": 2,
       "title": "quis ut nam facilis et officia qui",
-      "completed": false
+      "completed": false,
+      "note": ''
     },
     {
       "userId": 2,
       "id": 3,
       "title": "test",
-      "completed": false
+      "completed": false,
+      "note": ''
     }
   ];
   taskList: Item[] = [];
   addTaskVisible = false;
   newTask = null;
-  // deletedTaskList = [];
   searchText = '';
+  notesList: Note[] = [];
 
   constructor(private _cdr: ChangeDetectorRef,
     private router: Router,
@@ -52,24 +57,40 @@ export class ListsComponent implements OnInit {
 
   ngOnInit() {
     this.getList();
+    this.getNotes();
+    this.mergeNoteTask();
+    console.log(this.taskList);
   }
 
   getList() {
-    // var data = this.httpClient.get('https://jsonplaceholder.typicode.com/bipintek/demo-api/todos');
-    // this.httpClient.get('https://jsonplaceholder.typicode.com/bipintek/demo-api/todos')
-    //   .subscribe(
-    //     (data) => {
-    //       if (data != []) {
-    //         this.defaultList = data;
-    //       } else {
-    // this.taskList = this.sampleList;
-    //   }
-    // });
-
     if (this.storage.get(LIST_KEY) == undefined) {
       this.taskList = this.sampleList;
     } else {
       this.taskList = this.storage.get(LIST_KEY);
+    }
+  }
+
+  getNotes() {
+    if (this.storage.get(NOTE_KEY) != undefined) {
+      this.notesList = this.storage.get(NOTE_KEY);
+    }
+  }
+
+  mergeNoteTask() {
+    console.log(this.notesList);
+    if (this.notesList.length > 0) {
+      for (let noteCount = 0; noteCount < this.notesList.length; noteCount++) {
+        for (let taskCount = 0; taskCount < this.taskList.length; taskCount++) {
+          if (this.notesList[noteCount].targetItem == this.taskList[taskCount].id) {
+            if (this.taskList[taskCount].note == undefined) {
+              this.taskList[taskCount].note = '';
+            }
+            this.taskList[taskCount].note += this.notesList[noteCount].text + "\n";
+            taskCount = 0;
+            break;
+          }
+        }
+      }
     }
   }
 
@@ -81,31 +102,11 @@ export class ListsComponent implements OnInit {
     this.addTaskVisible = false;
   }
 
-  // addNewTask() {
-  //   this.searchText = null;
-  //   var maxId = this.getObject(this.defaultList, 'id');
-  //   var newId = maxId.id + 1;
-  //   var jsonString = '{"userId":' + 1 + ',"id":' + newId + ',"title":"' + this.newTask + '", "completed":' + false + '}'
-  //   this.defaultList.push(JSON.parse(jsonString));
-  //   this.searchText = '';
-  //   this._cdr.detectChanges();
-  // }
-
-  // getObject(array, prop) {
-  //   var object;
-  //   for (var index = 0; index < this.defaultList.length; index++) {
-  //     if (object == null || parseInt(array[index][prop]) > parseInt(object[prop]))
-  //       object = array[index];
-  //   }
-  //   return object;
-  // }
-
   deleteTaskById(id) {
     var target;
     for (var index = 0; index < this.taskList.length; index++) {
       if (this.taskList[index].id == id) {
         target = this.taskList[index];
-        // this.deletedTaskList.push(target);
         this.updateDoneList(target);
         this.taskList.splice(index, 1);
         this.storage.set(LIST_KEY, this.taskList);
@@ -134,7 +135,6 @@ export class ListsComponent implements OnInit {
   }
 
   colSort({ column, direction }: SortEvent) {
-
     // Reset headers
     this.headers.forEach(header => {
       if (header.sortable !== column) {
@@ -153,7 +153,6 @@ export class ListsComponent implements OnInit {
   }
 
   viewDeleted() {
-    // this.router.navigate(['/past', JSON.stringify(this.deletedTaskList)]);
     this.router.navigate(['/past']);
   }
 

@@ -3,4 +3,5 @@ export class Item {
     id: number;
     title: string;
     completed: boolean;
+    note: string;
 }

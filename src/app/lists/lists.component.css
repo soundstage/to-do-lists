@@ -76,3 +76,8 @@ border-color: #000000 transparent transparent transparent;
     display: flex;
     justify-content: space-between;
 }
+
+#notes{
+    white-space: pre-wrap;
+    margin-left: 10px;
+}

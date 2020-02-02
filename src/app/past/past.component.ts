@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChildren, QueryList, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SortHeader, SortEvent, compare } from '../directives/sort-header.directive';
-import { Item } from '../item';
+import { Item } from '../classes/item';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 
 let DONE_KEY = 'done';

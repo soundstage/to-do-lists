@@ -1,7 +1,8 @@
 import { Component, OnInit, Inject, ChangeDetectorRef } from '@angular/core';
 
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
-import { Item } from '../item';
+import { Item } from '../classes/item';
+import { MaxidService } from '../services/maxid.service';
 
 var LIST_KEY = 'list';
 
@@ -16,7 +17,11 @@ export class NewTaskComponent implements OnInit {
   newTask: string;
   showError: boolean = false;
 
-  constructor(@Inject(LOCAL_STORAGE) private storage: StorageService, private _cdr: ChangeDetectorRef) { }
+  constructor(
+    @Inject(LOCAL_STORAGE) private storage: StorageService, 
+    private _cdr: ChangeDetectorRef,
+    private maxIdService: MaxidService
+    ) { }
 
   ngOnInit() {
     this.task = new Item;
@@ -27,7 +32,7 @@ export class NewTaskComponent implements OnInit {
 
   addNewTask() {
     if (this.storage.get(LIST_KEY) != undefined) {
-      var maxId = this.getObject(this.taskList, 'id');
+      var maxId = this.maxIdService.getMaxId(this.taskList, 'id');
       var newId = maxId.id + 1;
       this.task.id = newId;
       this.task.completed = false;
@@ -52,17 +57,6 @@ export class NewTaskComponent implements OnInit {
     // var jsonString = '{"userId":' + 1 + ',"id":' + newId + ',"title":"' + this.newTask + '", "completed":' + false + '}'
     // this.taskList.push(JSON.parse(jsonString));
     this._cdr.detectChanges();
-  }
-
-  getObject(array, prop) {
-    var object;
-    if (array.length == 0)
-      return 0;
-    for (var index = 0; index < array.length; index++) {
-      if (object == null || parseInt(array[index][prop]) > parseInt(object[prop]))
-        object = array[index];
-    }
-    return object;
   }
 
 }

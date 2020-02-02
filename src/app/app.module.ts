@@ -13,6 +13,7 @@ import { OcticonDirective } from './directives/octicon.directive';
 import { SortHeader } from './directives/sort-header.directive';
 import { TableFilterPipe } from './pipes/table-filter.pipe';
 import { NewTaskComponent } from './new-task/new-task.component';
+import { NotesComponent } from './notes/notes.component';
 
 console.log(`jQuery version: ${$.fn.jquery}`);
 
@@ -25,7 +26,8 @@ console.log(`jQuery version: ${$.fn.jquery}`);
     OcticonDirective,
     SortHeader,
     TableFilterPipe,
-    NewTaskComponent
+    NewTaskComponent,
+    NotesComponent
   ],
   imports: [
     BrowserModule,

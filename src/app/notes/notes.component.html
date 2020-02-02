@@ -1,0 +1,8 @@
+<form>
+    <div class="form-group">
+        <label>Add Note</label>
+        <input type="text" [(ngModel)]="note.text" class="form-control" aria-describedby="taskHelp" name="task" />
+        <small id="taskHelp" class="form-text text-muted" [ngClass]="{'error': showError==true}">Enter a Note</small>
+    </div>
+    <button type="submit" class="btn btn-primary" (click)="saveNote()">Save Note</button>
+</form>
