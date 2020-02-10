@@ -1,4 +1,5 @@
 import { Component, OnInit, Inject, ChangeDetectorRef } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { Item } from '../classes/item';
@@ -15,13 +16,16 @@ export class NewTaskComponent implements OnInit {
   taskList: Item[] = [];
   task: Item;
   newTask: string;
-  showError: boolean = false;
+  newTaskForm = new FormGroup({
+    taskName: new FormControl('', Validators.required)
+  });
+  showMessage: boolean = false;
 
   constructor(
-    @Inject(LOCAL_STORAGE) private storage: StorageService, 
+    @Inject(LOCAL_STORAGE) private storage: StorageService,
     private _cdr: ChangeDetectorRef,
     private maxIdService: MaxidService
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.task = new Item;
@@ -31,20 +35,18 @@ export class NewTaskComponent implements OnInit {
   }
 
   addNewTask() {
+    this.showMessage = true;
     if (this.storage.get(LIST_KEY) != undefined) {
       var maxId = this.maxIdService.getMaxId(this.taskList, 'id');
       var newId = maxId.id + 1;
+      this.task.title = this.newTaskForm.get('taskName').value;
       this.task.id = newId;
       this.task.completed = false;
       this.task.userId = 0;
       this.taskList.push(this.task);
       this.storage.set(LIST_KEY, this.taskList);
     } else {
-      // Validated entered title
-      if (this.task.title == undefined || this.task.title == '') {
-        this.showError = true;
-        return;
-      }
+      this.task.title = this.newTaskForm.get('taskName').value;
       this.task.id = 0;
       this.task.completed = false;
       this.task.userId = 0;
@@ -54,6 +56,10 @@ export class NewTaskComponent implements OnInit {
     }
     console.log(this.storage.get(LIST_KEY));
     this.task = new Item;
+    this.newTaskForm.reset();
+    setTimeout(() => {
+      this.showMessage = false;
+    }, 2000);
     // var jsonString = '{"userId":' + 1 + ',"id":' + newId + ',"title":"' + this.newTask + '", "completed":' + false + '}'
     // this.taskList.push(JSON.parse(jsonString));
     this._cdr.detectChanges();

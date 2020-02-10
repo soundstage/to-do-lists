@@ -1,8 +1,19 @@
-<form>
-    <div class="form-group">
-        <label>Add Task</label>
-        <input type="text" [(ngModel)]="task.title" class="form-control" aria-describedby="taskHelp" name="task" />
-        <small id="taskHelp" class="form-text text-muted" [ngClass]="{'error': showError==true}">Enter a Task</small>
+<div class="alert alert-secondary" role="alert" *ngIf="showMessage">
+    New Task added!
+</div>
+<form [formGroup]="newTaskForm" (ngSubmit)="addNewTask()" class="{'was-validated':newTaskForm.get('taskName').errors}">
+    <div class="form-group"
+        [ngClass]="{'error':newTaskForm.get('taskName').errors && (newTaskForm.get('taskName').touched || newTaskForm.get('taskName').dirty)}">
+        <label for="taskName" class="control-label">Add Task</label>
+        <div>
+            <input type="text" id="taskName" formControlName="taskName" class="form-control" name="task" />
+            <span class="help-block" *ngIf="newTaskForm.get('taskName').errors && (newTaskForm.get('taskName').touched ||
+                newTaskForm.get('taskName').dirty)">
+                <small *ngIf="newTaskForm.get('taskName').errors.required" class="form-text has-error">Enter
+                    a
+                    Task</small>
+            </span>
+        </div>
     </div>
-    <button type="submit" class="btn btn-primary" (click)="addNewTask()">Submit</button>
+    <button type="submit" class="btn btn-primary" [disabled]="!newTaskForm.valid">Submit</button>
 </form>
