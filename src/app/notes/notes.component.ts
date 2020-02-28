@@ -36,6 +36,11 @@ export class NotesComponent implements OnInit {
     // this.storage.remove(NOTE_KEY);
     // return;
     if (this.storage.get(NOTE_KEY) != undefined) {
+      // Validated entered note
+      if (this.note.text == undefined || this.note.text == '') {
+        this.showError = true;
+        return;
+      }
       let maxId = this.maxIdService.getMaxId(this.noteList, 'id');
       let newId = maxId.id + 1;
       this.note.id = newId;

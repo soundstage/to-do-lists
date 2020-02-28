@@ -1,3 +1,7 @@
+.list-container{
+    margin-top: 10px;
+}
+
 .add-task{
     display: flex;
     justify-content: space-around;
@@ -27,17 +31,34 @@
     font-size: 25px;
 }
 
+.icon-ten-pad-right{
+    padding-right: 10px;
+    cursor: pointer;
+}
 .icon-ten-pad{
     padding: 0 10px;
     cursor: pointer;
 }
 
+.delete-icon{
+    color: lightcoral;
+}
 .delete-icon:hover{
     color: red;
 }
 
+.done-icon{
+    color: lightgreen;
+}
 .done-icon:hover{
     color: green;
+}
+
+.comment-icon{
+    color: royalblue;
+}
+.comment-icon:hover{
+    color: blue;
 }
 
 .strike-through-text{
@@ -46,10 +67,6 @@
 
 .checklist-done{
     color: darkblue
-}
-
-.header{
-
 }
 
 .sortable{

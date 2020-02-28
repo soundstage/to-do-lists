@@ -1,11 +1,33 @@
+<script>
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip({ boundary: 'window' });
+  })
+</script>
 <div class="container">
+  <h4>Task List</h4>
   <div class="control-bar">
     <input [(ngModel)]="searchText" placeholder="Search.." class="advancedSearchTextbox">
   </div>
-
-
-
-  <div class="ListContainer">
+  <div class="list-container">
+    <!-- <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li class="page-item">
+          <a class="page-link" href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+            <span class="sr-only">Previous</span>
+          </a>
+        </li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item">
+          <a class="page-link" href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+            <span class="sr-only">Next</span>
+          </a>
+        </li>
+      </ul>
+    </nav> -->
     <table class="table" id="tasksTable">
       <thead>
         <tr>
@@ -13,8 +35,14 @@
             #
           </th>
           <th scope="col" style="width: 10%">User ID</th>
-          <th scope="col" sortable="title" (sort)="colSort($event)" class="sortable" style="width: 25%">
+          <th scope="col" sortable="title" (sort)="colSort($event)" class="sortable" style="width: 10%">
             Title
+          </th>
+          <th scope="col" style="width: 10%;">
+            Due Date
+          </th>
+          <th scope="col" style="width: 10%;">
+            Priority
           </th>
           <th scope="col" sortable="completed" (sort)="colSort($event)" class="sortable" style="width: 10%">
             Status
@@ -27,6 +55,8 @@
           <td>{{task.id}}</td>
           <td>{{task.userId}}</td>
           <td [ngClass]="(task.completed==true)?'strike-through-text':''">{{task.title}}</td>
+          <td>{{task.dueDate}}</td>
+          <td>{{task.priority}}</td>
           <td>
             <!-- If Task Completed -->
             <span *ngIf="task.completed" octicon="checklist" class="checklist-done"></span>
@@ -34,14 +64,16 @@
             <span *ngIf="!task.completed" octicon="dash"></span>
           </td>
           <td>
-            <span octicon="check" width="16" class="icon-ten-pad done-icon"
-              (click)="markAsDoneById(task.id)">DONE</span>
-            <span octicon="trashcan" class="icon-ten-pad delete-icon" (click)="deleteTaskById(task.id)"></span>
-            <span octicon="comment-discussion" [routerLink]="['/notes', task.id]" class="icon-ten-pad"></span>
+            <span octicon="check" width="16" class="icon-ten-pad-right done-icon" data-toggle="tooltip"
+              data-placement="top" title="Done!" (click)="markAsDoneById(task.id)"></span>
+            <span octicon="trashcan" class="icon-ten-pad delete-icon" (click)="deleteTaskById(task.id)"
+              data-toggle="tooltip" data-placement="top" title="Delete"></span>
+            <span octicon="comment-discussion" [routerLink]="['/notes', task.id]" data-toggle="tooltip"
+              data-placement="top" title="Add Note" class="icon-ten-pad comment-icon"></span>
           </td>
         </tr>
         <tr id="row" *ngIf="task.note">
-          <td colspan="6">
+          <td colspan="12">
             <div id="notes">
               <p><b>Notes:</b></p>{{task.note}}
             </div>

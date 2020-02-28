@@ -27,6 +27,8 @@ export class ListsComponent implements OnInit {
       "id": 1,
       "title": "delectus aut autem",
       "completed": false,
+      "dueDate": '',
+      "priority": '',
       "note": ''
     },
     {
@@ -34,6 +36,8 @@ export class ListsComponent implements OnInit {
       "id": 2,
       "title": "quis ut nam facilis et officia qui",
       "completed": false,
+      "dueDate": '',
+      "priority": '',
       "note": ''
     },
     {
@@ -41,6 +45,8 @@ export class ListsComponent implements OnInit {
       "id": 3,
       "title": "test",
       "completed": false,
+      "dueDate": '',
+      "priority": '',
       "note": ''
     }
   ];

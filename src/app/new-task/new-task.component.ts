@@ -17,7 +17,9 @@ export class NewTaskComponent implements OnInit {
   task: Item;
   newTask: string;
   newTaskForm = new FormGroup({
-    taskName: new FormControl('', Validators.required)
+    taskName: new FormControl('', Validators.required),
+    dueDate: new FormControl('', Validators.required),
+    priority: new FormControl('', Validators.required)
   });
   showMessage: boolean = false;
 
@@ -40,6 +42,8 @@ export class NewTaskComponent implements OnInit {
       var maxId = this.maxIdService.getMaxId(this.taskList, 'id');
       var newId = maxId.id + 1;
       this.task.title = this.newTaskForm.get('taskName').value;
+      this.task.dueDate = this.newTaskForm.get('dueDate').value;
+      this.task.priority = this.newTaskForm.get('priority').value;
       this.task.id = newId;
       this.task.completed = false;
       this.task.userId = 0;
@@ -47,6 +51,8 @@ export class NewTaskComponent implements OnInit {
       this.storage.set(LIST_KEY, this.taskList);
     } else {
       this.task.title = this.newTaskForm.get('taskName').value;
+      this.task.dueDate = this.newTaskForm.get('dueDate').value;
+      this.task.priority = this.newTaskForm.get('priority').value;
       this.task.id = 0;
       this.task.completed = false;
       this.task.userId = 0;

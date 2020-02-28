@@ -1,19 +1,44 @@
-<div class="alert alert-secondary" role="alert" *ngIf="showMessage">
+<div class="container">
+  <h4>Add New Task</h4>
+  <div class="alert alert-secondary" role="alert" *ngIf="showMessage">
     New Task added!
-</div>
-<form [formGroup]="newTaskForm" (ngSubmit)="addNewTask()" class="{'was-validated':newTaskForm.get('taskName').errors}">
+  </div>
+  <form [formGroup]="newTaskForm" (ngSubmit)="addNewTask()"
+    class="{'was-validated':newTaskForm.get('taskName').errors}">
     <div class="form-group"
-        [ngClass]="{'error':newTaskForm.get('taskName').errors && (newTaskForm.get('taskName').touched || newTaskForm.get('taskName').dirty)}">
-        <label for="taskName" class="control-label">Add Task</label>
-        <div>
-            <input type="text" id="taskName" formControlName="taskName" class="form-control" name="task" />
-            <span class="help-block" *ngIf="newTaskForm.get('taskName').errors && (newTaskForm.get('taskName').touched ||
-                newTaskForm.get('taskName').dirty)">
-                <small *ngIf="newTaskForm.get('taskName').errors.required" class="form-text has-error">Enter
-                    a
-                    Task</small>
-            </span>
-        </div>
+      [ngClass]="{'error':newTaskForm.get('taskName').errors && (newTaskForm.get('taskName').touched || newTaskForm.get('taskName').dirty)}">
+      <label for="taskName" class="control-label">Task title</label>
+      <div>
+        <input type="text" id="taskName" formControlName="taskName" class="form-control" name="task"
+          placeholder="Title" />
+        <span class="help-block" *ngIf="newTaskForm.get('taskName').errors && (newTaskForm.get('taskName').touched ||
+                  newTaskForm.get('taskName').dirty)">
+          <small *ngIf="newTaskForm.get('taskName').errors.required" class="form-text has-error">Enter a Task</small>
+        </span>
+      </div>
     </div>
-    <button type="submit" class="btn btn-primary" [disabled]="!newTaskForm.valid">Submit</button>
-</form>
+    <div class="form-group">
+      <label class="control-label">Due Date</label>
+      <div>
+        <input type="text" id="dueDate" formControlName="dueDate" class="form-control" name="due"
+          placeholder="Due on" />
+        <span class="help-block" *ngIf="newTaskForm.get('dueDate').errors && (newTaskForm.get('dueDate').touched ||
+        newTaskForm.get('dueDate').dirty)">
+          <small *ngIf="newTaskForm.get('dueDate').errors.required" class="form-text has-error">Enter due date</small>
+        </span>
+      </div>
+    </div>
+    <div>
+      <label class="control-label">Priority</label>
+      <div>
+        <input type="text" id="priority" formControlName="priority" class="form-control" name="priority"
+          placeholder="Priority" />
+        <span class="help-block" *ngIf="newTaskForm.get('priority').errors && (newTaskForm.get('priority').touched ||
+        newTaskForm.get('priority').dirty)">
+          <small *ngIf="newTaskForm.get('priority').errors.required" class="form-text has-error">Select priority</small>
+        </span>
+      </div>
+    </div>
+    <button type="submit" class="pt btn btn-primary" [disabled]="!newTaskForm.valid">Submit</button>
+  </form>
+</div>
